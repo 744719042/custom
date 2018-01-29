@@ -17,7 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".TabIndicatorActivity"></activity>
+        <activity android:name=".TabIndicatorActivity" />
+        <activity android:name=".BannerActivity"></activity>
     </application>
 
 </manifest>

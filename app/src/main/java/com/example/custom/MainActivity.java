@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, TabIndicatorActivity.class);
             startActivity(intent);
         } else if (v == horizontal) {
-
+            Intent intent = new Intent(this, BannerActivity.class);
+            startActivity(intent);
         } else if (v == vertical) {
 
         } else if (v == header) {
