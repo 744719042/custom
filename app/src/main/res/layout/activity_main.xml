@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.custom.MainActivity">
+
+    <Button
+        android:id="@+id/tabIndicator"
+        android:text="自定义Tab指示器"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/tabHorizontalSlide"
+        android:text="横向轮播"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/tabVerticalSlide"
+        android:text="竖向轮播"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/headerRefresh"
+        android:text="顶部下拉刷新"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
