@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".TabIndicatorActivity" />
-        <activity android:name=".BannerActivity"></activity>
+        <activity android:name=".BannerActivity" />
+        <activity android:name=".GalleryActivity"></activity>
     </application>
 
 </manifest>

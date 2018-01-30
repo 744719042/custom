@@ -9,6 +9,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button tab;
     private Button horizontal;
+    private Button gallery;
     private Button vertical;
     private Button header;
 
@@ -20,6 +21,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tab.setOnClickListener(this);
         horizontal = (Button) findViewById(R.id.tabHorizontalSlide);
         horizontal.setOnClickListener(this);
+        gallery = (Button) findViewById(R.id.gallery);
+        gallery.setOnClickListener(this);
         vertical = (Button) findViewById(R.id.tabVerticalSlide);
         vertical.setOnClickListener(this);
         header = (Button) findViewById(R.id.headerRefresh);
@@ -33,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if (v == horizontal) {
             Intent intent = new Intent(this, BannerActivity.class);
+            startActivity(intent);
+        } else if (v == gallery) {
+            Intent intent = new Intent(this, GalleryActivity.class);
             startActivity(intent);
         } else if (v == vertical) {
 
