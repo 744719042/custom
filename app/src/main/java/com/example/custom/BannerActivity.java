@@ -3,17 +3,17 @@ package com.example.custom;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.custom.adapter.BannerImageAdapter;
-import com.example.custom.widget.viewpager.AutoPlayView;
+import com.example.custom.adapter.BannerPicAdapter;
+import com.example.custom.widget.viewpager.AutoPlayView2;
 
 public class BannerActivity extends AppCompatActivity {
-    private AutoPlayView autoPlayView;
+    private AutoPlayView2 autoPlayView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banner);
-        autoPlayView = (AutoPlayView) findViewById(R.id.auto_player_view);
-        autoPlayView.setAdapter(new BannerImageAdapter());
+        autoPlayView = (AutoPlayView2) findViewById(R.id.auto_player_view);
+        autoPlayView.setAdapter(new BannerPicAdapter());
     }
 
     @Override

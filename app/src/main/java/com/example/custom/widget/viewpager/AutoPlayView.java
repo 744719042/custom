@@ -6,14 +6,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.example.custom.adapter.BannerAdapter;
-import com.example.custom.adapter.BannerImageAdapter;
 import com.example.custom.utils.CommonUtils;
 
 /**
@@ -87,7 +85,7 @@ public class AutoPlayView extends FrameLayout {
 
     private void drawCircles(Canvas canvas) {
         canvas.save();
-        BannerImageAdapter adapter = (BannerImageAdapter) viewPager.getAdapter();
+        BannerAdapter adapter = (BannerAdapter) viewPager.getAdapter();
         int count = adapter.getItemCount();
         int chosen = viewPager.getCurrentItem() % count;
         int centerX = getMeasuredWidth() / 2;
