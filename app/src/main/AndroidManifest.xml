@@ -19,7 +19,8 @@
         </activity>
         <activity android:name=".TabIndicatorActivity" />
         <activity android:name=".BannerActivity" />
-        <activity android:name=".GalleryActivity"></activity>
+        <activity android:name=".GalleryActivity" />
+        <activity android:name=".VerticalScrollActivity"></activity>
     </application>
 
 </manifest>

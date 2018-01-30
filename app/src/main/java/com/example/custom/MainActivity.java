@@ -41,7 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, GalleryActivity.class);
             startActivity(intent);
         } else if (v == vertical) {
-
+            Intent intent = new Intent(this, VerticalScrollActivity.class);
+            startActivity(intent);
         } else if (v == header) {
 
         }

@@ -197,7 +197,6 @@ public class AutoPlayView2 extends FrameLayout {
 
     public void destroy() {
         pausePlay();
-        setAdapter(null);
         mPlayRunnable = null;
     }
 }
