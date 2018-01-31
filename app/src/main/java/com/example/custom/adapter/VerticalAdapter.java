@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.custom.R;
 import com.example.custom.model.User;
@@ -50,7 +51,7 @@ public class VerticalAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.user_item, parent, false);
@@ -63,6 +64,12 @@ public class VerticalAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context.getApplicationContext(), getItem(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
         bindView(getItem(position), viewHolder);
         return convertView;
     }

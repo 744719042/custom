@@ -4,15 +4,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.custom.adapter.VerticalAdapter;
-import com.example.custom.widget.vertical.VerticalScrollView;
+import com.example.custom.widget.vertical.VerticalScrollView2;
 
 public class VerticalScrollActivity extends AppCompatActivity {
-    private VerticalScrollView verticalScrollView;
+    private VerticalScrollView2 verticalScrollView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vertical_scroll);
-        verticalScrollView = (VerticalScrollView) findViewById(R.id.verticalScrollView);
+        verticalScrollView = (VerticalScrollView2) findViewById(R.id.verticalScrollView);
         verticalScrollView.setAdapter(new VerticalAdapter(this));
     }
 

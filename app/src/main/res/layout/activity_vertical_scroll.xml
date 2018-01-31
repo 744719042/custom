@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     tools:context="com.example.custom.VerticalScrollActivity">
 
-    <com.example.custom.widget.vertical.VerticalScrollView
+    <com.example.custom.widget.vertical.VerticalScrollView2
         android:id="@+id/verticalScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </com.example.custom.widget.vertical.VerticalScrollView>
+    </com.example.custom.widget.vertical.VerticalScrollView2>
 </LinearLayout>
