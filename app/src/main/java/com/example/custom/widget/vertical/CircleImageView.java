@@ -3,6 +3,7 @@ package com.example.custom.widget.vertical;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,6 +11,7 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
@@ -25,8 +27,9 @@ public class CircleImageView extends AppCompatImageView {
     private int circleColor;
     private Paint paint;
     private BitmapShader bitmapShader;
-    private BitmapDrawable drawable;
+    private int drawable;
     private Bitmap bitmap;
+    private boolean shouldInitShader = false;
 
     public CircleImageView(Context context) {
         this(context, null);
@@ -41,7 +44,8 @@ public class CircleImageView extends AppCompatImageView {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView);
         circleWidth = (int) typedArray.getDimension(R.styleable.CircleImageView_circle_width, 0);
         circleColor = typedArray.getColor(R.styleable.CircleImageView_circle_color, Color.WHITE);
-        drawable = (BitmapDrawable) typedArray.getDrawable(R.styleable.CircleImageView_android_src);
+        drawable = typedArray.getResourceId(R.styleable.CircleImageView_android_src, R.drawable.blue);
+        setImageResource(drawable);
         typedArray.recycle();
         init();
     }
@@ -53,7 +57,34 @@ public class CircleImageView extends AppCompatImageView {
     }
 
     @Override
+    public void setImageResource(int resId) {
+        drawable = resId;
+        bitmap = BitmapFactory.decodeResource(getResources(), resId);
+        if (getMeasuredWidth() > 0 && getMeasuredHeight() > 0) {
+            shouldInitShader = false;
+            initShader();
+            invalidate();
+        } else {
+            shouldInitShader = true;
+        }
+    }
+
+    private void initShader() {
+        Bitmap originBitmap = bitmap;
+        int originWidth = originBitmap.getWidth(), originHeight = originBitmap.getHeight();
+        float widthRatio = (float) getMeasuredWidth() / originWidth, heightRatio = (float) getMeasuredHeight() / originHeight;
+        Matrix matrix = new Matrix();
+        matrix.preScale(widthRatio, heightRatio);
+        bitmap = Bitmap.createBitmap(originBitmap, 0, 0, originWidth, originHeight, matrix, false);
+        bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+    }
+
+    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (bitmap == null) {
+            setMeasuredDimension(0, 0);
+            return;
+        }
         int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
@@ -61,16 +92,16 @@ public class CircleImageView extends AppCompatImageView {
 
         int widthSpec = widthMeasureSpec;
         if (widthMode == MeasureSpec.UNSPECIFIED) {
-            widthSpec = MeasureSpec.makeMeasureSpec(drawable.getIntrinsicWidth(), MeasureSpec.EXACTLY);
+            widthSpec = MeasureSpec.makeMeasureSpec(bitmap.getWidth(), MeasureSpec.EXACTLY);
         } else if (widthMode == MeasureSpec.AT_MOST) {
-            widthSpec = MeasureSpec.makeMeasureSpec(Math.min(drawable.getIntrinsicWidth(), width), MeasureSpec.EXACTLY);
+            widthSpec = MeasureSpec.makeMeasureSpec(Math.min(bitmap.getWidth(), width), MeasureSpec.EXACTLY);
         }
 
         int heightSpec = heightMeasureSpec;
         if (heightMode == MeasureSpec.UNSPECIFIED) {
-            heightSpec = MeasureSpec.makeMeasureSpec(drawable.getIntrinsicHeight(), MeasureSpec.EXACTLY);
+            heightSpec = MeasureSpec.makeMeasureSpec(bitmap.getHeight(), MeasureSpec.EXACTLY);
         } else if (heightMode == MeasureSpec.AT_MOST) {
-            heightSpec = MeasureSpec.makeMeasureSpec(Math.min(drawable.getIntrinsicHeight(), height), MeasureSpec.EXACTLY);
+            heightSpec = MeasureSpec.makeMeasureSpec(Math.min(bitmap.getHeight(), height), MeasureSpec.EXACTLY);
         }
 
         super.onMeasure(widthSpec, heightSpec);
@@ -79,19 +110,15 @@ public class CircleImageView extends AppCompatImageView {
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-        if (bitmap == null) {
-            Bitmap originBitmap = drawable.getBitmap();
-            int originWidth = drawable.getIntrinsicWidth(), originHeight = drawable.getIntrinsicHeight();
-            float widthRatio = (float) getMeasuredWidth() / originWidth, heightRatio = (float) getMeasuredHeight() / originHeight;
-            Matrix matrix = new Matrix();
-            matrix.preScale(widthRatio, heightRatio);
-            bitmap = Bitmap.createBitmap(originBitmap, 0, 0, originWidth, originHeight, matrix, false);
-            bitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        if (shouldInitShader) {
+            shouldInitShader = false;
+            initShader();
         }
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
+        if (bitmap == null) return;
         canvas.save();
         int centerX = getMeasuredWidth() / 2, centerY = getMeasuredHeight() / 2;
         int radius = Math.min(getMeasuredHeight(), getMeasuredWidth()) / 2;

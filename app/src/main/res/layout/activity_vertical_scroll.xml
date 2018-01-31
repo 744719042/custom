@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     tools:context="com.example.custom.VerticalScrollActivity">
 
-    <com.example.custom.widget.vertical.CircleImageView
-        android:src="@drawable/red_flower"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:circle_color="@color/colorAccent"
-        app:circle_width="4dp" />
+    <com.example.custom.widget.vertical.VerticalScrollView
+        android:id="@+id/verticalScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.example.custom.widget.vertical.VerticalScrollView>
 </LinearLayout>
