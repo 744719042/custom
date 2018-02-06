@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button horizontal;
     private Button gallery;
     private Button vertical;
+    private Button transform;
     private Button header;
 
     @Override
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         gallery.setOnClickListener(this);
         vertical = (Button) findViewById(R.id.tabVerticalSlide);
         vertical.setOnClickListener(this);
+        transform = (Button) findViewById(R.id.transform);
+        transform.setOnClickListener(this);
         header = (Button) findViewById(R.id.headerRefresh);
         header.setOnClickListener(this);
     }
@@ -42,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if (v == vertical) {
             Intent intent = new Intent(this, VerticalScrollActivity.class);
+            startActivity(intent);
+        } else if (v == transform) {
+            Intent intent = new Intent(this, TransformActivity.class);
             startActivity(intent);
         } else if (v == header) {
 

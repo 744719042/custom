@@ -22,14 +22,20 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/gallery"
-        android:text="画廊效果"
+        android:id="@+id/tabVerticalSlide"
+        android:text="竖向轮播"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/tabVerticalSlide"
-        android:text="竖向轮播"
+        android:id="@+id/transform"
+        android:text="切换效果"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/gallery"
+        android:text="画廊效果"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
