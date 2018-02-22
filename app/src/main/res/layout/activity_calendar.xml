@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.custom.CalendarActivity">
 
-    <com.example.custom.widget.calendar.CalendarView
-        android:padding="10dp"
+    <com.example.custom.widget.calendar.CalendarLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </com.example.custom.widget.calendar.CalendarView>
+    </com.example.custom.widget.calendar.CalendarLayout>
 </FrameLayout>

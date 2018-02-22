@@ -165,4 +165,22 @@ public class CalendarView extends View {
             }
         }
     }
+
+    public void setYear(int year) {
+        calendar.set(Calendar.YEAR, year);
+        invalidate();
+    }
+
+    public void setMonth(int month) {
+        calendar.set(Calendar.MONTH, month);
+        invalidate();
+    }
+
+    public int getYear() {
+        return calendar.get(Calendar.YEAR);
+    }
+
+    public int getMonth() {
+        return calendar.get(Calendar.MONTH);
+    }
 }

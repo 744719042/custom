@@ -9,4 +9,6 @@
         <item>六</item>
         <item>日</item>
     </string-array>
+    <string name="year">%d年</string>
+    <string name="month">%d月</string>
 </resources>
