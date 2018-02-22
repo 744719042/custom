@@ -5,4 +5,13 @@
         <attr name="circle_color" format="color" />
         <attr name="android:src" />
     </declare-styleable>
+
+    <declare-styleable name="CalendarView">
+        <attr name="cell_width" format="dimension" />
+        <attr name="cell_height" format="dimension" />
+        <attr name="day_cell_height" format="dimension" />
+        <attr name="text_color" format="color" />
+        <attr name="select_color" format="color" />
+        <attr name="today_color" format="color" />
+    </declare-styleable>
 </resources>

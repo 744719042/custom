@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button gallery;
     private Button vertical;
     private Button transform;
-    private Button header;
+    private Button calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         vertical.setOnClickListener(this);
         transform = (Button) findViewById(R.id.transform);
         transform.setOnClickListener(this);
-        header = (Button) findViewById(R.id.headerRefresh);
-        header.setOnClickListener(this);
+        calendar = (Button) findViewById(R.id.calendar);
+        calendar.setOnClickListener(this);
     }
 
     @Override
@@ -49,8 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (v == transform) {
             Intent intent = new Intent(this, TransformActivity.class);
             startActivity(intent);
-        } else if (v == header) {
-
+        } else if (v == calendar) {
+            Intent intent = new Intent(this, CalendarActivity.class);
+            startActivity(intent);
         }
     }
 }

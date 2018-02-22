@@ -40,8 +40,14 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/headerRefresh"
-        android:text="顶部下拉刷新"
+        android:id="@+id/calendar"
+        android:text="日历控件"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+    <CalendarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </CalendarView>
 </LinearLayout>
