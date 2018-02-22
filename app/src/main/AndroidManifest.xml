@@ -22,7 +22,8 @@
         <activity android:name=".GalleryActivity" />
         <activity android:name=".VerticalScrollActivity" />
         <activity android:name=".TransformActivity" />
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CalendarActivity" />
+        <activity android:name=".SwipeActivity"></activity>
     </application>
 
 </manifest>
