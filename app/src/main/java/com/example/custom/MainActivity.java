@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button transform;
     private Button calendar;
     private Button refresh;
+    private Button zoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         calendar.setOnClickListener(this);
         refresh = (Button) findViewById(R.id.refresh);
         refresh.setOnClickListener(this);
+        zoom = (Button) findViewById(R.id.zoom);
+        zoom.setOnClickListener(this);
     }
 
     @Override
@@ -57,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if (v == refresh) {
             Intent intent = new Intent(this, SwipeActivity.class);
+            startActivity(intent);
+        } else if (v == zoom) {
+            Intent intent = new Intent(this, ZoomHeaderActivity.class);
             startActivity(intent);
         }
     }

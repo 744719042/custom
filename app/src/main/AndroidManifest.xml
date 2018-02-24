@@ -23,7 +23,8 @@
         <activity android:name=".VerticalScrollActivity" />
         <activity android:name=".TransformActivity" />
         <activity android:name=".CalendarActivity" />
-        <activity android:name=".SwipeActivity"></activity>
+        <activity android:name=".SwipeActivity" />
+        <activity android:name=".ZoomHeaderActivity"></activity>
     </application>
 
 </manifest>
