@@ -28,7 +28,7 @@ public class CalendarView extends View {
     private static final int DEFAULT_DAY_CELL_WIDTH = DEFAULT_CELL_WIDTH;
     private static final int DEFAULT_DAY_CELL_HEIGHT = CommonUtils.dp2px(30);
     private static final int COLUMN = 7;
-    private static final int ROW = 6;
+    private static final int ROW = 7;
     private static final int[] MONTH_DAYS = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
     private int cellWidth = DEFAULT_CELL_WIDTH;
     private int cellHeight = DEFAULT_CELL_HEIGHT;
@@ -106,11 +106,20 @@ public class CalendarView extends View {
         int lastMonth = tmpCalendar.get(Calendar.MONTH);
 
         Log.d(TAG, "year = " + year + ", month = " + month + ", day = " + day + ", lastMonth = " + lastMonth);
+
+        // day 1 - 7 1 -> 周日  2 -> 7 周一 -> 周六
         int index = 0;
         int days = MONTH_DAYS[lastMonth];
-        for (int i = 0; i < day - 2; i++, index++) {
-            paint.setColor(getResources().getColor(R.color.gray));
-            drawCell(canvas, index, days - day + i + 2);
+        if (day >= 2) {
+            for (int i = 0; i < day - 2; i++, index++) {
+                paint.setColor(getResources().getColor(R.color.gray));
+                drawCell(canvas, index, days - day + i + 3);
+            }
+        } else {
+            for (int i = 0; i < 6; i++, index++) {
+                paint.setColor(getResources().getColor(R.color.gray));
+                drawCell(canvas, index, days - 5 + i);
+            }
         }
 
         days = MONTH_DAYS[month];
