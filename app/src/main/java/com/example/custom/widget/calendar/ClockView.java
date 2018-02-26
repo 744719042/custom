@@ -26,13 +26,16 @@ public class ClockView extends View {
     private static final int HOURS_COUNT = 12;
     private static final int MINUTES_COUNT = 12 * 5;
     private Calendar calendar;
+    private boolean autoUpdate = true;
 
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            calendar.setTimeInMillis(System.currentTimeMillis());
-            invalidate();
-            postDelayed(runnable, 1000);
+            if (autoUpdate) {
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                invalidate();
+                postDelayed(runnable, 1000);
+            }
         }
     };
 
@@ -64,11 +67,28 @@ public class ClockView extends View {
                 MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
     }
 
+    public void setAutoUpdate(boolean autoUpdate) {
+        this.autoUpdate = autoUpdate;
+        if (!autoUpdate) {
+            removeCallbacks(runnable);
+        }
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         calendar.setTimeInMillis(System.currentTimeMillis());
         drawClock(canvas);
-        postDelayed(runnable, 1000);
+        if (autoUpdate) {
+            postDelayed(runnable, 1000);
+        }
+    }
+
+    public int getRealWidth() {
+        return width;
+    }
+
+    public int getRealHeight() {
+        return height;
     }
 
     private void drawClock(Canvas canvas) {

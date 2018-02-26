@@ -24,7 +24,18 @@
         <activity android:name=".TransformActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".SwipeActivity" />
-        <activity android:name=".ZoomHeaderActivity"></activity>
+        <activity android:name=".ZoomHeaderActivity" />
+
+        <receiver android:name=".widget.ClockWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="action_update_time" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/clock_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
