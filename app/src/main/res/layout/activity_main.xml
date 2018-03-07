@@ -57,5 +57,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
+    <Button
+        android:id="@+id/viewpagerIndicator"
+        android:text="指示器"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>
