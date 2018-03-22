@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.custom.widget.FlowLayout;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private Button tab;
     private Button horizontal;
@@ -16,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button refresh;
     private Button zoom;
     private Button indicator;
+    private Button flowLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         zoom.setOnClickListener(this);
         indicator = (Button) findViewById(R.id.viewpagerIndicator);
         indicator.setOnClickListener(this);
+        flowLayout = (Button) findViewById(R.id.flowLayout);
+        flowLayout.setOnClickListener(this);
     }
 
     @Override
@@ -69,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if (v == indicator) {
             Intent intent =new Intent(this, IndicatorActivity.class);
+            startActivity(intent);
+        } else if (v == flowLayout) {
+            Intent intent = new Intent(this, FlowLayoutActivity.class);
             startActivity(intent);
         }
     }

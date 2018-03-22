@@ -14,4 +14,9 @@
         <attr name="select_color" format="color" />
         <attr name="today_color" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="FlowLayout">
+        <attr name="vertical_margin" format="dimension" />
+        <attr name="horizontal_margin" format="dimension" />
+    </declare-styleable>
 </resources>

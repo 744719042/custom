@@ -37,7 +37,8 @@
                 android:resource="@xml/clock_widget_info" />
         </receiver>
 
-        <activity android:name=".IndicatorActivity"></activity>
+        <activity android:name=".IndicatorActivity" />
+        <activity android:name=".FlowLayoutActivity"></activity>
     </application>
 
 </manifest>
