@@ -24,7 +24,8 @@
         <activity android:name=".TransformActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".SwipeActivity" />
-        <activity android:name=".ZoomHeaderActivity" />
+        <activity android:name=".ZoomHeaderActivity"
+            android:hardwareAccelerated="true" />
 
         <receiver android:name=".widget.ClockWidget">
             <intent-filter>

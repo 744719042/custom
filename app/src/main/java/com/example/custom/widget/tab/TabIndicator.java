@@ -12,30 +12,27 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.custom.R;
 import com.example.custom.utils.CommonUtils;
+import com.example.custom.widget.CustomTextView;
 
 /**
  * Created by Administrator on 2018/1/29.
  */
 
-public class TabIndicator extends LinearLayout {
+public class TabIndicator extends HorizontalScrollView {
     private static final String TAG = "ArrowTabIndicator";
-    private static final int STATE_INIT = 0;
-    private static final int STATE_DECIDE_DIRECT = 1;
-    private static final int STATE_DRAW_SCROLL_ARROW = 2;
 
     private ViewPager viewPager;
     private PagerAdapter pagerAdapter;
     private int selected = -1;
+    private LinearLayout linearLayout;
+    private FrameLayout frameLayout;
 
-    private int state = STATE_INIT;
-    private float lastOffset = -1;
-    private int lastPosition = -1;
-    private boolean leftToRight = false;
     private int tabWidth;
     private int curPos;
     private Paint paint;
@@ -53,7 +50,12 @@ public class TabIndicator extends LinearLayout {
     }
 
     private void init() {
-        setOrientation(HORIZONTAL);
+        frameLayout = new FrameLayout(getContext());
+        addView(frameLayout);
+        linearLayout = new LinearLayout(getContext());
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+        frameLayout.addView(linearLayout);
+
         paint = new Paint();
         paint.setColor(getResources().getColor(R.color.colorAccent));
         paint.setStyle(Paint.Style.FILL);
@@ -79,11 +81,12 @@ public class TabIndicator extends LinearLayout {
         int width = getTabWidth(count);
 
         for (int i = 0; i < count; i++) {
-            TextView textView = new TextView(getContext());
+            CustomTextView textView = new CustomTextView(getContext());
             textView.setGravity(Gravity.CENTER);
             textView.setTextColor(getResources().getColor(R.color.colorAccent));
             textView.setTextSize(15f);
             textView.setText(pagerAdapter.getPageTitle(i));
+            textView.setProgress(1.0f);
             final int index = i;
             textView.setOnClickListener(new OnClickListener() {
                 @Override
@@ -91,15 +94,47 @@ public class TabIndicator extends LinearLayout {
                     viewPager.setCurrentItem(index, true);
                 }
             });
-            LinearLayout.LayoutParams params = new LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.CENTER;
-            addView(textView, params);
+            linearLayout.addView(textView, params);
         }
 
         tabWidth = width;
         curPos = width / 2;
         selected = 0;
         postInvalidate();
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.d(TAG, "onPageScrolled() position = " + position + ", positionOffset = " + positionOffset);
+                setPositionAndOffset(position, positionOffset);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                scrollToCenter(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    private void scrollToCenter(int position) {
+        int screenSize = CommonUtils.getScreenWidth();
+        int midPos = screenSize / 2;
+        int left = position * tabWidth + tabWidth / 2;
+        int right = (linearLayout.getChildCount() - position - 1) * tabWidth + tabWidth / 2;
+        if (left < midPos) {
+            smoothScrollTo(0, 0);
+        } else if (left > midPos && right > midPos) {
+            smoothScrollTo(left - midPos, 0);
+        } else {
+            smoothScrollTo(tabWidth * linearLayout.getChildCount(), 0);
+        }
     }
 
     private int getTabWidth(int count) {
@@ -135,9 +170,9 @@ public class TabIndicator extends LinearLayout {
 
     private void drawBottomLine(Canvas canvas) {
         canvas.save();
-        canvas.drawRect(curPos - tabWidth / 2,
+        canvas.drawRect(curPos,
                 getMeasuredHeight() - CommonUtils.dp2px(3),
-                curPos + tabWidth / 2, getMeasuredHeight(), paint);
+                curPos + tabWidth, getMeasuredHeight(), paint);
         canvas.restore();
     }
 
@@ -153,53 +188,14 @@ public class TabIndicator extends LinearLayout {
     }
 
     public void setPositionAndOffset(int position, float offset) {
-        if (selected < 0 || offset < 0.00000001 || offset > 0.9999999999) {
-            return;
+        curPos = (int) ((position + offset) * tabWidth);
+        CustomTextView left = (CustomTextView) linearLayout.getChildAt(position);
+        left.setOritention(1);
+        left.setProgress(offset);
+        if (position + 1 < linearLayout.getChildCount()) {
+            CustomTextView right = (CustomTextView) linearLayout.getChildAt(position + 1);
+            right.setProgress(1f - offset);
         }
-
-        switch (state) {
-            case STATE_INIT:
-                lastOffset = offset;
-                lastPosition = position;
-                state = STATE_DECIDE_DIRECT;
-                Log.d(TAG, "setPositionAndOffset(): init state = " + state
-                        + ", lastPosition = " + lastPosition + ", lastOffset = " + lastOffset);
-                break;
-            case STATE_DECIDE_DIRECT:
-                if (lastPosition == position) {
-                    leftToRight = (offset - lastOffset) > 0;
-                    state = STATE_DRAW_SCROLL_ARROW;
-                } else {
-                    lastOffset = offset;
-                    lastPosition = position;
-                }
-                Log.d(TAG, "setPositionAndOffset(): init state = " + state
-                        + ", lastPosition = " + lastPosition + ", lastOffset = " + lastOffset);
-                break;
-            case STATE_DRAW_SCROLL_ARROW:
-                if (leftToRight) {
-                    int target = position + 1;
-                    Log.d(TAG, "setPositionAndOffset(): init state = " + state
-                            + ", leftToRight = " + leftToRight + ", target = " + target + ", selected = " + selected);
-                    if (target >= pagerAdapter.getCount() || target == selected) {
-                        return;
-                    }
-                    curPos = (int) (((target + offset) * tabWidth) - tabWidth / 2);
-                } else {
-                    int target = position;
-                    Log.d(TAG, "setPositionAndOffset(): init state = " + state
-                            + ", leftToRight = " + leftToRight + ", target = " + target + ", selected = " + selected);
-                    curPos = (int) (((target + 1 + offset) * tabWidth) - tabWidth / 2);
-                }
-                invalidate();
-            default:
-                break;
-        }
-
-    }
-
-    public void reset() {
-        state = STATE_INIT;
-        selected = viewPager.getCurrentItem();
+        invalidate();
     }
 }

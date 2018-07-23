@@ -19,11 +19,14 @@ public class LargeImageAdapter extends PagerAdapter {
             R.drawable.blue,
             R.drawable.good,
             R.drawable.red_flower,
-            R.drawable.yellow_mountain
+            R.drawable.yellow_mountain,
+            R.drawable.good,
+            R.drawable.red_flower,
+            R.drawable.yellow_mountain,
     };
 
     private String[] mTitles = new String[] {
-            "蓝色", "红绿", "红色", "红黄"
+            "蓝色", "红绿", "红色", "红黄", "花朵", "景色", "森林"
     };
     private List<ImageView> mList = new ArrayList<>(resArr.length);
 

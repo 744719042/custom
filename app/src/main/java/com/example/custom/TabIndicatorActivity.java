@@ -20,24 +20,5 @@ public class TabIndicatorActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(new LargeImageAdapter());
         arrowTabIndicator.setViewPager(viewPager);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.d(TAG, "onPageScrolled() position = " + position + ", positionOffset = " + positionOffset);
-                arrowTabIndicator.setPositionAndOffset(position, positionOffset);
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                if (state == ViewPager.SCROLL_STATE_IDLE) {
-                    arrowTabIndicator.reset();
-                }
-            }
-        });
     }
 }
