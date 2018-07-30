@@ -7,10 +7,10 @@
     android:orientation="vertical"
     tools:context="com.example.custom.BannerActivity">
 
-    <com.example.custom.widget.viewpager.AutoPlayView2
+    <com.example.custom.widget.viewpager.AutoPlayView
         android:id="@+id/auto_player_view"
         android:layout_width="match_parent"
         android:layout_height="150dp">
 
-    </com.example.custom.widget.viewpager.AutoPlayView2>
+    </com.example.custom.widget.viewpager.AutoPlayView>
 </LinearLayout>

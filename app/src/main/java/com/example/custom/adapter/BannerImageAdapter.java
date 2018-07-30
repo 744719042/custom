@@ -1,5 +1,6 @@
 package com.example.custom.adapter;
 
+import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -7,8 +8,7 @@ import android.widget.ImageView;
 import com.example.custom.R;
 import com.example.custom.utils.CommonUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 /**
  * Created by Administrator on 2018/1/29.
@@ -18,18 +18,19 @@ public class BannerImageAdapter extends BannerAdapter {
     private int[] resArr = new int[] {
             R.drawable.blue,
             R.drawable.good,
-            R.drawable.red_flower,
-            R.drawable.yellow_mountain
+            R.drawable.red_flower
     };
 
     private String[] mTitles = new String[] {
-            "蓝色", "红绿", "红色", "红黄"
+            "蓝色", "红绿", "红色"
     };
-    private List<ImageView> mList = new ArrayList<>(resArr.length);
+    private LinkedList<ImageView> mList = new LinkedList<>();
 
-    public BannerImageAdapter() {
-        for (int i = 0; i < resArr.length; i++) {
-            mList.add(null);
+    public BannerImageAdapter(Context context) {
+        for (int i = 0; i < 4; i++) {
+            ImageView imageView = new ImageView(context);
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            mList.addLast(imageView);
         }
     }
 
@@ -46,24 +47,26 @@ public class BannerImageAdapter extends BannerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         int realPosition = position % resArr.length;
-        if (mList.get(realPosition) == null) {
-            ImageView imageView = new ImageView(container.getContext());
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setImageResource(resArr[position]);
-            container.addView(imageView);
-            mList.add(realPosition, imageView);
-            imageView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-            imageView.getLayoutParams().height = CommonUtils.dp2px(150);
+        ImageView imageView = null;
+        if (!mList.isEmpty()) {
+            imageView = mList.removeFirst();
         } else {
-            container.addView(mList.get(realPosition));
+            imageView = new ImageView(container.getContext());
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
-        return mList.get(realPosition);
+        imageView.setImageResource(resArr[realPosition]);
+        container.addView(imageView);
+        imageView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+        imageView.getLayoutParams().height = CommonUtils.dp2px(150);
+        return imageView;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         if (object instanceof ImageView) {
-            container.removeView((ImageView) object);
+            ImageView imageView = (ImageView) object;
+            container.removeView(imageView);
+            mList.addLast(imageView);
         }
     }
 
