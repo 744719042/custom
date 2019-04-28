@@ -37,12 +37,12 @@
         </FrameLayout>
 
 
-        <com.example.custom.widget.listview.MyListView
-            android:id="@+id/listView"
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="800dp">
 
-        </com.example.custom.widget.listview.MyListView>
+        </LinearLayout>
 
     </LinearLayout>
 </com.example.custom.widget.scroll.MyScrollView>
