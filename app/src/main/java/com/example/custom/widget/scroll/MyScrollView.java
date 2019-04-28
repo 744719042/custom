@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
 import android.widget.ScrollView;
 
 import com.example.custom.R;
@@ -17,6 +16,7 @@ import com.example.custom.R;
  */
 
 public class MyScrollView extends ScrollView {
+    private static final String TAG = "MyScrollView";
     private static final float MAX_SCALE_RATIO = 1.8f;
     private int mPullDownY = -1;
     private boolean mIsPullDown = false;
@@ -49,21 +49,18 @@ public class MyScrollView extends ScrollView {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (headerView == null) {
-            return super.onTouchEvent(ev);
-        }
-
+        int y = (int) ev.getY();
         switch (ev.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN:
+                mPullDownY = (int) ev.getY();
+                break;
             case MotionEvent.ACTION_MOVE:
                 if (getScrollY() != 0) {
                     return super.onTouchEvent(ev);
                 }
-                if (!mIsPullDown && getScrollY() == 0 && mPullDownY == -1) {
-                    mPullDownY = (int) ev.getY();
-                    return super.onTouchEvent(ev);
-                } else if (!mIsPullDown) {
-                    int diff = (int) (ev.getY() - mPullDownY);
-                    if (diff < 0) { // 向上推动
+                int motionY = y - mPullDownY;
+                if (!mIsPullDown) {
+                    if (motionY < 0) { // 向上推动
                         return super.onTouchEvent(ev);
                     } else { // 向下拉动
                         mIsPullDown = true;
@@ -72,16 +69,11 @@ public class MyScrollView extends ScrollView {
                     }
                 }
 
-                int diff = (int) (ev.getY() - mPullDownY);
-                if (mIsPullDown && diff > 0) {
-                    int height = (int) (originHeight + diff * 0.5f);
+                if (mIsPullDown && motionY > 0) {
+                    int height = (int) (originHeight + motionY * 0.5f);
                     float ratio = (float) height / originHeight;
                     ratio = ratio > MAX_SCALE_RATIO ? MAX_SCALE_RATIO : ratio;
-                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) headerView.getLayoutParams();
-                    layoutParams.width = (int) (originWidth * ratio);
-                    layoutParams.height = (int) (originHeight * ratio);
-                    layoutParams.leftMargin = -(layoutParams.width - originWidth) / 2;
-                    headerView.requestLayout();
+                    setRatio(ratio);
                     return true;
                 }
                 break;
@@ -95,16 +87,20 @@ public class MyScrollView extends ScrollView {
                 valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
-                        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) headerView.getLayoutParams();
-                        layoutParams.width = (int) ((float) animation.getAnimatedValue() * originWidth);
-                        layoutParams.height = (int) ((float) animation.getAnimatedValue() * originHeight);
-                        layoutParams.leftMargin = -(layoutParams.width - originWidth) / 2;
-                        headerView.requestLayout();
+                        setRatio((float) animation.getAnimatedValue());
                     }
                 });
                 valueAnimator.start();
                 break;
         }
         return super.onTouchEvent(ev);
+    }
+
+    private void setRatio(float ratio) {
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) headerView.getLayoutParams();
+        layoutParams.width = (int) (ratio * originWidth);
+        layoutParams.height = (int) (ratio * originHeight);
+        layoutParams.leftMargin = -(layoutParams.width - originWidth) / 2;
+        headerView.requestLayout();
     }
 }
